@@ -1,15 +1,41 @@
 service: day13-l3a-monitoring-llmops-lab
+
+# Baseline đo trên máy lab (10 request mẫu, concurrency 5, không incident):
+#   latency P50 ≈ 155 ms, P95 ≈ 165 ms, P99 ≈ 330 ms, TTFT P95 ≈ 50 ms, error rate 0%.
+# Ngưỡng 3000 ms của starter quá lỏng: incident rag_slow (retrieval +2.5 s → ~2.65 s/request)
+# vẫn "đạt" SLO dù chậm gấp ~17 lần baseline. Vì vậy hạ ngưỡng latency của SLI xuống
+# 2000 ms (≈6× P99 baseline, vẫn là mức người dùng chat chấp nhận được) để SLO thực sự phản
+# ánh trải nghiệm. Đường 3000 ms trong config/dashboard.yaml được giữ nguyên làm contract
+# chấm điểm / trần cứng (hard ceiling); dashboard vẽ thêm đường SLO 2000 ms nét đứt.
 primary_slo:
   name: fast_successful_requests
+  description: Tỉ lệ request /chat trả lời thành công và nhanh hơn 2 giây.
   window: 28d
+  latency_threshold_ms: 2000
   sli:
-    good_event: 'event == "response_sent" and latency_ms <= 3000'
+    good_event: 'event == "response_sent" and latency_ms <= 2000'
     total_event: 'event == "request_received"'
   target_percent: 99.5
   error_budget_percent: 0.5
-  note: Học viên phải giải thích hoặc điều chỉnh ngưỡng bằng baseline của mình.
+  error_budget:
+    # Error budget = (1 - 0.995) × tổng request trong cửa sổ 28 ngày.
+    formula: 'bad_allowed = (1 - target_percent/100) × total_requests_28d'
+    example_traffic_per_day: 10000
+    example_total_requests_28d: 280000
+    example_bad_requests_allowed_28d: 1400
+    equivalent_full_outage_minutes_28d: 201.6   # 0.5% × 28 × 24 × 60
+    burn_rate:
+      # burn_rate = (bad/total trong cửa sổ ngắn) / 0.005
+      fast_burn: {window: 1h, threshold: 14.4, meaning: 'tiêu 2% budget trong 1 giờ → page'}
+      slow_burn: {window: 6h, threshold: 6, meaning: 'tiêu 5% budget trong 6 giờ → ticket'}
+  policy:
+    - 'Còn > 50% budget: được deploy/đổi prompt bình thường.'
+    - 'Còn 10–50% budget: đổi prompt/model phải qua label candidate + so sánh trace trước khi promote.'
+    - 'Hết budget: đóng băng thay đổi (chỉ rollback/fix), ưu tiên reliability.'
+
 guardrails:
   error_rate_pct_max: 2
   daily_cost_usd_max: 2.5
+  avg_cost_per_request_usd_max: 0.004   # ≈ 2× baseline 0.002 USD/request
   quality_score_avg_min: 0.75
   retrieval_success_rate_pct_min: 90

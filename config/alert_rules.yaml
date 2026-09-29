@@ -1,25 +1,36 @@
+# Ba alert symptom-based: đo triệu chứng người dùng thấy (chậm, lỗi, tốn tiền),
+# không đo trực tiếp chi tiết implementation (ví dụ "vector store timeout").
+# Nguồn dữ liệu: data/logs.jsonl (cùng nguồn với dashboard). Runbook: docs/alerts.md.
 alerts:
-  - name: TODO_alert_1
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: ChatLatencyP95High
+    severity: P2-high
+    condition: 'p95(latency_ms) over event == "response_sent" (rolling 5m) > 2000 ms'
+    duration: 5m
     type: symptom-based
+    slo: fast_successful_requests (config/slo.yaml, latency_threshold_ms = 2000)
     channel: slack
-    owner: TODO
-    runbook: docs/alerts.md#alert-1
-  - name: TODO_alert_2
-    severity: TODO
-    condition: TODO
-    duration: TODO
+    slack_channel: '#day13-k4l3a-oncall'
+    owner: llmops-oncall (Nguyen Tran Kien)
+    runbook: docs/alerts.md#alert-1--chatlatencyp95high
+
+  - name: ChatErrorRateHigh
+    severity: P1-critical
+    condition: 'count(event == "request_failed") / count(event == "request_received") * 100 (rolling 5m) > 2 % AND count(request_received) >= 10'
+    duration: 5m
     type: symptom-based
+    slo: fast_successful_requests + guardrail error_rate_pct_max = 2
     channel: slack
-    owner: TODO
-    runbook: docs/alerts.md#alert-2
-  - name: TODO_alert_3
-    severity: TODO
-    condition: TODO
-    duration: TODO
+    slack_channel: '#day13-k4l3a-oncall'
+    owner: llmops-oncall (Nguyen Tran Kien)
+    runbook: docs/alerts.md#alert-2--chaterrorratehigh
+
+  - name: CostPerRequestSpike
+    severity: P3-medium
+    condition: 'sum(cost_usd) / count(event == "response_sent") (rolling 15m) > 0.004 USD (≈2× baseline 0.002)'
+    duration: 15m
     type: symptom-based
+    slo: guardrail avg_cost_per_request_usd_max = 0.004, daily_cost_usd_max = 2.5
     channel: slack
-    owner: TODO
-    runbook: docs/alerts.md#alert-3
+    slack_channel: '#day13-k4l3a-finops'
+    owner: llmops-finops (Nguyen Tran Kien)
+    runbook: docs/alerts.md#alert-3--costperrequestspike

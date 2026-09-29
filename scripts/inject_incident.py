@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
 import httpx
+from dotenv import load_dotenv
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -13,7 +15,9 @@ if str(REPO_ROOT) not in sys.path:
 from app.challenge import resolve_incident
 from app.cli import configure_utf8_stdio
 
-BASE_URL = "http://127.0.0.1:8000"
+# Đọc LAB_BASE_URL từ .env/biến môi trường để đổi cổng khi 8000 đã bị chiếm.
+load_dotenv(REPO_ROOT / ".env")
+BASE_URL = os.getenv("LAB_BASE_URL", "http://127.0.0.1:8000").rstrip("/")
 
 
 def main() -> None:

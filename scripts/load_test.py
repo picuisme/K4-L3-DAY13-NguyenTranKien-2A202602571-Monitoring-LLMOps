@@ -1,4 +1,5 @@
 import argparse
+import os
 import concurrent.futures
 import json
 import sys
@@ -6,6 +7,7 @@ import time
 from pathlib import Path
 
 import httpx
+from dotenv import load_dotenv
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -14,7 +16,9 @@ if str(REPO_ROOT) not in sys.path:
 from app.challenge import load_challenge, ordered_queries
 from app.cli import configure_utf8_stdio
 
-BASE_URL = "http://127.0.0.1:8000"
+# Đọc LAB_BASE_URL từ .env/biến môi trường để đổi cổng khi 8000 đã bị chiếm.
+load_dotenv(REPO_ROOT / ".env")
+BASE_URL = os.getenv("LAB_BASE_URL", "http://127.0.0.1:8000").rstrip("/")
 QUERIES = Path("data/sample_queries.jsonl")
 
 
@@ -23,7 +27,9 @@ def send_request(client: httpx.Client, payload: dict) -> None:
         start = time.perf_counter()
         r = client.post(f"{BASE_URL}/chat", json=payload)
         latency = (time.perf_counter() - start) * 1000
-        print(f"[{r.status_code}] {r.json().get('correlation_id')} | {payload['feature']} | {latency:.1f}ms")
+        # Request lỗi (500) không có correlation_id trong body -> lấy từ header x-request-id.
+        correlation_id = r.headers.get("x-request-id") or r.json().get("correlation_id")
+        print(f"[{r.status_code}] {correlation_id} | {payload['feature']} | {latency:.1f}ms")
     except Exception as e:
         print(f"Error: {e}")
 

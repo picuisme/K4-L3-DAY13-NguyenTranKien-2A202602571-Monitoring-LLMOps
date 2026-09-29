@@ -141,6 +141,18 @@ python scripts/load_test.py --challenge --concurrency 5
 
 Không tự tạo, sửa, chia sẻ hoặc lấy `config/challenge.json` từ lớp khác. Nếu chưa nhận file riêng, tiếp tục practice bằng tham số `--scenario`; không chạy challenge chính thức.
 
+## Công cụ bổ sung trong bài làm
+
+```bash
+python scripts/prompt_versions.py create|status|promote|rollback|run --label <label>  # prompt v1/v2 + rollback
+python scripts/build_dashboard.py [--watch] [--minutes 15 --bucket-seconds 30 --highlight HH:MM-HH:MM]
+python scripts/collect_evidence.py checks|logs|dashboard|incident --start HH:MM --end HH:MM|scan
+```
+
+Nếu cổng 8000 đã bị chiếm: chạy `uvicorn app.main:app --env-file .env --port 8001` và đặt `LAB_BASE_URL=http://127.0.0.1:8001` trong `.env` (load test/inject incident đọc biến này).
+
+Dashboard được dựng từ `data/logs.jsonl` theo `config/dashboard.yaml` (cần `matplotlib`, đã có trong `requirements.txt`).
+
 ## Kiểm tra trước khi nộp
 
 ```bash
