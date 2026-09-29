@@ -1,7 +1,7 @@
 # Structured log (data/logs.jsonl) — một request, nối bằng correlation_id
-# repo HEAD: 3d92e5c | captured: 2026-09-29 16:32:17 Asia/Ho_Chi_Minh | python 3.11.9
+# repo HEAD: b75b511 | captured: 2026-09-29 19:15:27 Asia/Ho_Chi_Minh | python 3.11.9
 
-Request correlation_id=req-61a47e62  (2 log lines)
+Request correlation_id=req-69efa2f3  (2 log lines)
 
 {
   "service": "api",
@@ -9,41 +9,40 @@ Request correlation_id=req-61a47e62  (2 log lines)
     "message_preview": "My CCCD is [REDACTED_CCCD], can I still get a refund?"
   },
   "event": "request_received",
+  "correlation_id": "req-69efa2f3",
   "user_id_hash": "92ec86fa8892",
-  "model": "claude-sonnet-4-5",
-  "env": "dev",
   "feature": "qa",
-  "correlation_id": "req-61a47e62",
+  "model": "claude-sonnet-4-5",
   "session_id": "s11",
+  "env": "dev",
   "level": "info",
-  "ts": "2026-09-29T09:06:22.978708Z"
+  "ts": "2026-09-29T11:38:22.637483Z"
 }
 {
   "service": "api",
-  "latency_ms": 154,
+  "latency_ms": 153,
   "ttft_ms": 50,
   "tokens_in": 33,
-  "tokens_out": 97,
-  "cost_usd": 0.001554,
+  "tokens_out": 136,
+  "cost_usd": 0.002139,
   "quality_score": 0.9,
   "retrieval_ms": 0,
-  "prompt_ms": 0,
   "llm_ms": 152,
   "doc_count": 1,
   "prompt_version": "1",
-  "trace_id": "30e00ea6847884f25a7f7cfbe2f28a4f",
+  "trace_id": "f06005b942d86ea6bbdfbd7edb24b796",
   "tool_name": "retrieval",
   "tool_success": true,
   "payload": {
     "answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."
   },
   "event": "response_sent",
+  "correlation_id": "req-69efa2f3",
   "user_id_hash": "92ec86fa8892",
-  "model": "claude-sonnet-4-5",
-  "env": "dev",
   "feature": "qa",
-  "correlation_id": "req-61a47e62",
+  "model": "claude-sonnet-4-5",
   "session_id": "s11",
+  "env": "dev",
   "level": "info",
-  "ts": "2026-09-29T09:06:23.135851Z"
+  "ts": "2026-09-29T11:38:22.796142Z"
 }

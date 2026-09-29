@@ -1,12 +1,12 @@
 # Log validator
-# repo HEAD: 3d92e5c | captured: 2026-09-29 16:32:16 Asia/Ho_Chi_Minh | python 3.11.9
+# repo HEAD: b75b511 | captured: 2026-09-29 19:15:27 Asia/Ho_Chi_Minh | python 3.11.9
 
 $ python scripts/validate_logs.py
 --- Lab Verification Results ---
-Total log records analyzed: 46
+Total log records analyzed: 135
 Records with missing required fields: 0
 Records with missing enrichment (context): 0
-Unique correlation IDs found: 22
+Unique correlation IDs found: 67
 Potential PII leaks detected: 0
 
 --- Grading Scorecard (Estimates) ---
