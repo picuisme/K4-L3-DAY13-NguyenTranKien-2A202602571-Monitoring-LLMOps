@@ -1,0 +1,24 @@
+# PII redaction — input giả (data/sample_queries.jsonl) vs log thực tế đã ghi
+# repo HEAD: 3d92e5c | captured: 2026-09-29 16:32:17 Asia/Ho_Chi_Minh | python 3.11.9
+
+[email] session_id=s01
+  INPUT (test data) : What is your refund policy? My email is student@vinuni.edu.vn
+  LOG  request_received correlation_id=req-db1a3a87
+       payload.message_preview = What is your refund policy? My email is [REDACTED_EMAIL]
+
+[phone_vn] session_id=s05
+  INPUT (test data) : Here is my phone 0987654321, what should be logged?
+  LOG  request_received correlation_id=req-dd0e9903
+       payload.message_preview = Here is my phone [REDACTED_PHONE_VN], what should be logged?
+
+[credit_card] session_id=s09
+  INPUT (test data) : What is the policy for PII and credit card 4111 1111 1111 1111?
+  LOG  request_received correlation_id=req-0867957e
+       payload.message_preview = What is the policy for PII and credit card [REDACTED_CREDIT_CARD]?
+
+[cccd] session_id=s11
+  INPUT (test data) : My CCCD is 001203004567, can I still get a refund?
+  LOG  request_received correlation_id=req-61a47e62
+       payload.message_preview = My CCCD is [REDACTED_CCCD], can I still get a refund?
+
+Quét toàn bộ data/logs.jsonl (46 dòng) bằng regex của validator: {'email': 0, 'phone_vn': 0, 'cccd': 0, 'credit_card': 0}

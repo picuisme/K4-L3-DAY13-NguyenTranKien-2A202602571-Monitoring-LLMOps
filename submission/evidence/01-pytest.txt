@@ -1,0 +1,6 @@
+# Pytest trên commit hiện tại
+# repo HEAD: 3d92e5c | captured: 2026-09-29 16:32:04 Asia/Ho_Chi_Minh | python 3.11.9
+
+$ python -m pytest -q -p no:cacheprovider
+.....................................                                    [100%]
+37 passed in 7.99s

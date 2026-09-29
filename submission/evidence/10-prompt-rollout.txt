@@ -1,0 +1,6 @@
+2026-09-29T09:21:58+00:00 label=baseline prompt_version=1 (label now on v1) correlation_id=req-8d847af8 trace_id=6abc5ef98e0c9f70f87c48c66262c26e tokens_in=32 cost_usd=0.002271
+2026-09-29T09:22:06+00:00 label=candidate prompt_version=2 (label now on v2) correlation_id=req-4081b153 trace_id=aa11cc654cf56666f3ce6ff597f01a71 tokens_in=49 cost_usd=0.001842
+2026-09-29T09:24:36+00:00 label=production prompt_version=2 (label now on v2) correlation_id=req-197cddc2 trace_id=85ba41993e981c36c8b43747f9bf3fb7 tokens_in=49 cost_usd=0.002067
+2026-09-29T09:25:50+00:00 label=production prompt_version=1 (label now on v1) correlation_id=req-ad35875a trace_id=a305daf450f551ac9bff251d8d92e03a tokens_in=32 cost_usd=0.001641
+2026-09-29T09:29:41+00:00 label=production prompt_version=2 (label now on v2) correlation_id=req-2c680f36 trace_id=3e8cd4e4ed84130b6cf45b465f02a41a tokens_in=49 cost_usd=0.001662
+2026-09-29T09:30:29+00:00 label=production prompt_version=1 (label now on v1) correlation_id=req-bea7ab6b trace_id=90b7344be387a17d495c60969189f5ef tokens_in=32 cost_usd=0.002661

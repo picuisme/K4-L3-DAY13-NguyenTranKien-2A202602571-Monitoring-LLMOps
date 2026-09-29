@@ -14,7 +14,6 @@ from .logging_config import configure_logging, get_logger
 from .metrics import record_error, snapshot
 from .middleware import CorrelationIdMiddleware
 from .pii import hash_user_id, summarize_text
-from .prompt_management import resolve_prompt
 from .schemas import ChatRequest, ChatResponse
 from .tracing import get_langfuse_client, tracing_enabled
 
@@ -31,13 +30,6 @@ async def lifespan(_: FastAPI):
         env=os.getenv("APP_ENV", "dev"),
         payload={"tracing_enabled": tracing_enabled()},
     )
-    if tracing_enabled():
-        # Warm-up cache prompt để request đầu tiên không phải chờ fetch Langfuse (~1–2 s).
-        warm = await run_in_threadpool(
-            resolve_prompt, get_langfuse_client(), feature="warmup", docs=[], message="warmup", enabled=True
-        )
-        log.info("prompt_warmup", service="control",
-                 payload={"prompt_source": warm.source, "prompt_version": warm.version, "prompt_label": warm.label})
     yield
     if tracing_enabled():
         # Đẩy nốt các observation còn trong buffer trước khi tắt process.
@@ -96,7 +88,6 @@ async def chat(request: Request, body: ChatRequest) -> ChatResponse:
             cost_usd=result.cost_usd,
             quality_score=result.quality_score,
             retrieval_ms=result.retrieval_ms,
-            prompt_ms=result.prompt_ms,
             llm_ms=result.llm_ms,
             doc_count=result.doc_count,
             prompt_version=result.prompt_version,
