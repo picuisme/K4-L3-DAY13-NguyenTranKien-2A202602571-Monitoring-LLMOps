@@ -1,0 +1,49 @@
+# Incident log — challenge day13-k4-l3a-monitoring-llmops-v1
+# repo HEAD: 95834b4 | captured: 2026-09-29 19:08:01 Asia/Ho_Chi_Minh | python 3.11.9
+
+Window: 2026-09-29 18:37 → 18:38 Asia/Ho_Chi_Minh | 22 log lines trong khoảng
+request_received=10  response_sent=10  request_failed=0
+
+## response_sent chậm nhất
+{"ts": "2026-09-29T11:37:50.382957Z", "event": "response_sent", "level": "info", "correlation_id": "req-4ccc9959", "trace_id": "8d2ae58ff4555623f11d1120c6105b2b", "feature": "monitoring", "latency_ms": 2657, "retrieval_ms": 2501, "llm_ms": 153, "ttft_ms": 50, "tokens_out": 139, "cost_usd": 0.00219, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+{"ts": "2026-09-29T11:37:50.403247Z", "event": "response_sent", "level": "info", "correlation_id": "req-9c33a67b", "trace_id": "1a87263de41c154f80e613368b275693", "feature": "monitoring", "latency_ms": 2656, "retrieval_ms": 2502, "llm_ms": 152, "ttft_ms": 50, "tokens_out": 110, "cost_usd": 0.001755, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+{"ts": "2026-09-29T11:37:50.387789Z", "event": "response_sent", "level": "info", "correlation_id": "req-3fb476d0", "trace_id": "d47e442494a6f2284935e01573632297", "feature": "monitoring", "latency_ms": 2654, "retrieval_ms": 2502, "llm_ms": 152, "ttft_ms": 50, "tokens_out": 110, "cost_usd": 0.001752, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+{"ts": "2026-09-29T11:37:50.392312Z", "event": "response_sent", "level": "info", "correlation_id": "req-9a28484c", "trace_id": "1f0246d6f81af139c9948bb672383977", "feature": "monitoring", "latency_ms": 2654, "retrieval_ms": 2501, "llm_ms": 152, "ttft_ms": 50, "tokens_out": 160, "cost_usd": 0.002508, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+{"ts": "2026-09-29T11:37:50.398395Z", "event": "response_sent", "level": "info", "correlation_id": "req-b98866d6", "trace_id": "554362d7dd4dd70239bb639a6fdb441e", "feature": "monitoring", "latency_ms": 2654, "retrieval_ms": 2501, "llm_ms": 151, "ttft_ms": 50, "tokens_out": 153, "cost_usd": 0.0024, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+{"ts": "2026-09-29T11:37:16.810062Z", "event": "response_sent", "level": "info", "correlation_id": "req-28a18a12", "trace_id": "cf3eb02c4cf6adfde4594b378d6ae081", "feature": "monitoring", "latency_ms": 2653, "retrieval_ms": 2501, "llm_ms": 151, "ttft_ms": 50, "tokens_out": 138, "cost_usd": 0.002172, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+
+## response_sent đắt nhất
+{"ts": "2026-09-29T11:37:50.392312Z", "event": "response_sent", "level": "info", "correlation_id": "req-9a28484c", "trace_id": "1f0246d6f81af139c9948bb672383977", "feature": "monitoring", "latency_ms": 2654, "retrieval_ms": 2501, "llm_ms": 152, "ttft_ms": 50, "tokens_out": 160, "cost_usd": 0.002508, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+{"ts": "2026-09-29T11:37:50.398395Z", "event": "response_sent", "level": "info", "correlation_id": "req-b98866d6", "trace_id": "554362d7dd4dd70239bb639a6fdb441e", "feature": "monitoring", "latency_ms": 2654, "retrieval_ms": 2501, "llm_ms": 151, "ttft_ms": 50, "tokens_out": 153, "cost_usd": 0.0024, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+{"ts": "2026-09-29T11:37:16.832851Z", "event": "response_sent", "level": "info", "correlation_id": "req-58e1ed78", "trace_id": "e4bc3db5bade31b1d2f9397fae4b0c5c", "feature": "monitoring", "latency_ms": 2653, "retrieval_ms": 2501, "llm_ms": 151, "ttft_ms": 50, "tokens_out": 147, "cost_usd": 0.002313, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+{"ts": "2026-09-29T11:37:16.831761Z", "event": "response_sent", "level": "info", "correlation_id": "req-5e9fac17", "trace_id": "139c1c7c6f3583dbd3d48211e972e9b9", "feature": "monitoring", "latency_ms": 2653, "retrieval_ms": 2501, "llm_ms": 151, "ttft_ms": 50, "tokens_out": 139, "cost_usd": 0.00219, "tool_name": "retrieval", "tool_success": true, "prompt_version": "1"}
+
+## Full log line của request được chọn (chậm nhất)
+{
+  "service": "api",
+  "latency_ms": 2657,
+  "ttft_ms": 50,
+  "tokens_in": 35,
+  "tokens_out": 139,
+  "cost_usd": 0.00219,
+  "quality_score": 0.8,
+  "retrieval_ms": 2501,
+  "llm_ms": 153,
+  "doc_count": 1,
+  "prompt_version": "1",
+  "trace_id": "8d2ae58ff4555623f11d1120c6105b2b",
+  "tool_name": "retrieval",
+  "tool_success": true,
+  "payload": {
+    "answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."
+  },
+  "event": "response_sent",
+  "correlation_id": "req-4ccc9959",
+  "user_id_hash": "dde2e75b20cf",
+  "feature": "monitoring",
+  "model": "claude-sonnet-4-5",
+  "session_id": "k4-l3a-challenge-s01",
+  "env": "dev",
+  "level": "info",
+  "ts": "2026-09-29T11:37:50.382957Z"
+}

@@ -30,6 +30,23 @@ async def lifespan(_: FastAPI):
         env=os.getenv("APP_ENV", "dev"),
         payload={"tracing_enabled": tracing_enabled()},
     )
+    if tracing_enabled():
+        # Warm-up cache prompt để request đầu tiên không phải chờ fetch Langfuse (~1–2 s).
+        # Timeout warm-up dài hơn timeout của request (2 s): mạng/VPN chậm từng làm warm-up
+        # fail, khiến 5 request đồng thời đầu tiên cùng fetch prompt (cache stampede, 1–3 s).
+        # Prompt cache của SDK dùng chung key name+label nên request sau sẽ hit cache.
+        name = os.getenv("LANGFUSE_PROMPT_NAME", "day13-chat")
+        label = os.getenv("LANGFUSE_PROMPT_LABEL", "production")
+        try:
+            warm = await run_in_threadpool(
+                lambda: get_langfuse_client().get_prompt(
+                    name, label=label, type="text", cache_ttl_seconds=60, fetch_timeout_seconds=10, max_retries=2
+                )
+            )
+            log.info("prompt_warmup", service="control",
+                     payload={"prompt_source": "langfuse", "prompt_version": str(warm.version), "prompt_label": label})
+        except Exception as exc:  # warm-up lỗi không được chặn app khởi động
+            log.warning("prompt_warmup_failed", service="control", payload={"error_type": type(exc).__name__})
     yield
     if tracing_enabled():
         # Đẩy nốt các observation còn trong buffer trước khi tắt process.
@@ -88,6 +105,7 @@ async def chat(request: Request, body: ChatRequest) -> ChatResponse:
             cost_usd=result.cost_usd,
             quality_score=result.quality_score,
             retrieval_ms=result.retrieval_ms,
+            prompt_ms=result.prompt_ms,
             llm_ms=result.llm_ms,
             doc_count=result.doc_count,
             prompt_version=result.prompt_version,
