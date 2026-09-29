@@ -6,7 +6,7 @@
 - **MSSV:** 2A202602571
 - **Lớp:** K4-L3A
 - **Repository URL:** https://github.com/picuisme/K4-L3-DAY13-NguyenTranKien-2A202602571-Monitoring-LLMOps
-- **Commit SHA cuối:** xem mục cuối — SHA nộp trên LMS là commit cuối cùng của nhánh `main` (commit code + evidence: {{SHA_CODE}})
+- **Commit SHA cuối:** code + evidence cuối ở commit [`d9db7579388b6eda875fea98399dce58c27ebf23`](https://github.com/picuisme/K4-L3-DAY13-NguyenTranKien-2A202602571-Monitoring-LLMOps/commit/d9db7579388b6eda875fea98399dce58c27ebf23); commit ngay sau chỉ cập nhật SHA này trong `REPORT.md` (không đổi code/evidence). Evidence 01–05 được sinh trên commit `b75b511` — source giống hệt `d9db757` (commit đó chỉ thêm evidence).
 - **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1`
 - **Tên project Langfuse cá nhân:** `day13-k4-l3a-2A202602571` (Langfuse Cloud EU, `https://cloud.langfuse.com`)
 
